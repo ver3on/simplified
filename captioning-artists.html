@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="/tracker.js" defer></script>
+<meta charset="UTF-8">
+<meta name="sb-url" content="https://ogjuxwuapngwrinxbbib.supabase.co">
+<meta name="sb-anon" content="sb_publishable_DhDTAo24i0PBbDo7KQuwKQ_tb-xEJ-o">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Samples</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/assets/theme.css">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/cap-style.css">
+
+</head>
+<body>
+
+  <!-- NAV -->
+  <div style="position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;gap:5px;align-items:center;">
+    <nav class="back-bar" style="position:static;transform:none;">
+      <a href="index.html" class="back-pill">← Back</a>
+      <a href="#captioning" class="back-pill" onclick="smoothScroll('captioning')">Captioning</a>
+      <a href="#artists" class="back-pill" onclick="smoothScroll('artists')">Artists</a>
+      <a href="thumbnails.html" class="back-pill">Designs →</a>
+    </nav>
+    <nav class="back-bar" style="position:static;transform:none;">
+      <a href="rates.html" class="back-pill">Rates</a>
+    </nav>
+  </div>
+
+  <!-- ══ CAPTIONING SECTION ══ -->
+  <section id="captioning" class="page-hero">
+    <div class="container">
+      <p class="page-hero-eyebrow cap-hero-anim d1">Captioning — Sample Work</p>
+      <h1 class="cap-hero-anim d2">Closed captions that <em>fit the voice.</em></h1>
+    </div>
+  </section>
+
+  <section class="library-section">
+    <div class="container">
+      <div class="section-label reveal">Samples</div>
+      <div class="library-grid-captioning" id="captioning-grid"></div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ══ ARTISTS SECTION ══ -->
+  <section id="artists" class="page-hero">
+    <div class="container">
+      <p class="page-hero-eyebrow art-hero-anim d1">Artist Features — Work</p>
+      <h1 class="art-hero-anim d2">Edits made for <em>the music.</em></h1>
+    </div>
+  </section>
+
+  <section class="library-section">
+    <div class="container">
+      <div class="section-label reveal">Features</div>
+      <div class="library-grid-artists" id="artists-grid"></div>
+    </div>
+  </section>
+
+  <footer class="footer"><div class="container"></div></footer>
+
+  <script src="/assets/anim.js" defer></script>
+  <script src="/assets/cap-anim.js" defer></script>
+  <script src="/assets/cap-calls.js" defer></script>
+  <script src="/assets/cap-main.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<meta name="sb-url" content="https://ogjuxwuapngwrinxbbib.supabase.co">
+<meta name="sb-anon" content="sb_publishable_DhDTAo24i0PBbDo7KQuwKQ_tb-xEJ-o">
+<title>Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+<link rel="stylesheet" href="/assets/theme.css">
+<link rel="stylesheet" href="/assets/adobo-style.css">
+
+</head>
+<body>
+
+<!-- Delete Confirm Modal -->
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal-card">
+    <div class="modal-title" id="delete-title">Delete entry?</div>
+    <div class="modal-desc" id="delete-desc">Moved to trash. Permanently deleted after 30 days.</div>
+    <div class="modal-actions">
+      <button class="modal-btn" onclick="cancelDelete()">Cancel</button>
+      <button class="modal-btn danger" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Login -->
+<div id="login-screen">
+  <div class="login-card">
+    <p class="login-label">Portfolio</p>
+    <h1 class="login-title">Admin <em>access.</em></h1>
+    <div class="input-wrap">
+      <input id="pw-input" onkeypress="if(event.key==='Enter')login()" placeholder="Enter password" type="password"/>
+      <button class="eye-btn" onclick="togglePassword()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <button class="login-btn" id="login-btn" onclick="login()">Enter</button>
+    <p class="login-error" id="login-error">Incorrect password</p>
+  </div>
+</div>
+
+<!-- Admin -->
+<div id="admin-screen">
+  <nav class="admin-nav">
+    <div class="nav-pill active" id="overview-pill" onclick="showTab('overview', this)">
+      <svg viewBox="0 0 24 24"><rect height="18" rx="2" width="18" x="3" y="3"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-pill" id="content-pill" onclick="toggleDropdown('content-drop', this)">
+      <span>Content</span>
+      <div class="nav-dropdown" id="content-drop">
+        <div class="nav-sub" onclick="selectSub('profile','content-pill',event)">Profile</div>
+        <div class="nav-sub" onclick="selectSub('library','content-pill',event)">Library</div>
+        <div class="nav-sub" onclick="selectSub('librarycards','content-pill',event)">Library Cards</div>
+        <div class="nav-sub" onclick="selectSub('services','content-pill',event)">Services</div>
+        <div class="nav-sub" onclick="selectSub('tools','content-pill',event)">Tools</div>
+        <div class="nav-sub" onclick="selectSub('rates','content-pill',event)">Rates</div>
+        <div class="nav-sub" onclick="selectSub('testimonials','content-pill',event)">Testimonials</div>
+      </div>
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-pill" id="tracking-pill" onclick="toggleDropdown('tracking-drop', this)">
+      <span>Tracking</span>
+      <div class="nav-dropdown" id="tracking-drop">
+        <div class="nav-sub" onclick="selectSub('visitorlog', 'tracking-pill', event)">Visitor Log</div>
+        <div class="nav-sub" onclick="selectSub('pitchtracker', 'tracking-pill', event)">Pitch Tracker</div>
+      </div>
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-pill" id="settings-pill" onclick="toggleDropdown('settings-drop', this)">
+      <svg viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+        <div class="nav-dropdown" id="settings-drop">
+        <div class="nav-sub" onclick="selectSub('toggles', 'settings-pill', event)">Toggles</div>
+        <div class="nav-sub" onclick="selectSub('notes', 'settings-pill', event)">Notes</div>
+        <div class="nav-sub" onclick="selectSub('activitylog', 'settings-pill', event)">Activity Log</div>
+      </div>
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-pill" id="more-pill" onclick="toggleDropdown('more-drop', this)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+      <div class="nav-dropdown" id="more-drop" style="left:auto;right:-7px;transform:none;">
+        <div class="nav-sub" onclick="window.open('/','_blank')">Preview Site</div>
+        <div class="nav-sub" onclick="selectSub('trash', 'more-pill', event)">Trash</div>
+        <div class="nav-sub" onclick="logout()" style="color:var(--red)">Log Out</div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="admin-content">
+
+    <!-- Overview -->
+    <div class="tab-panel active" id="tab-overview">
+      <div class="section-label">Overview</div>
+      <div class="reminder-banner" id="testi-reminder">
+        <span id="testi-reminder-text">Testimonials saved but hidden</span>
+        <span class="reminder-btn" onclick="selectSub('toggles','settings-pill',{stopPropagation:()=>{}})">Go to Toggles →</span>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-val" id="stat-visits">-</div><div class="stat-lbl">Monthly Visits</div></div>
+        <div class="stat-box"><div class="stat-val" id="stat-page">-</div><div class="stat-lbl">Top Page</div></div>
+        <div class="stat-box"><div class="stat-val" id="stat-click">-</div><div class="stat-lbl">Top Click</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Recent Activity</div>
+        <div class="card-desc">Last 10 actions</div>
+        <div id="activity-list"><div class="loading-state">Loading...</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Quick Export</div>
+        <div class="card-desc">Download your data</div>
+        <button class="export-btn" onclick="exportBackup()">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          Backup JSON
+        </button>
+        <button class="export-btn" onclick="window.open('/','_blank')">
+          <svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          View Site
+        </button>
+      </div>
+    </div>
+
+    <!-- Library -->
+    <div class="tab-panel" id="tab-library">
+      <div class="section-label">Content / Library</div>
+      <div class="card collapsed" id="card-works">
+        <div class="card-header" onclick="toggleCard('card-works')">
+          <div class="card-title">Works</div>
+          <svg class="card-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="card-body"><div class="card-body-inner">
+        <div class="entry-list" id="works-list"><div class="loading-state">Loading...</div></div>
+        <div class="add-form" id="work-form">
+          <div class="form-title" id="work-form-title">Add Work</div>
+          <div class="form-field"><label>Type / Label</label><input id="w-type" placeholder="e.g. Short-form Video" type="text"/></div>
+          <div class="form-field"><label>Title</label><input id="w-title" placeholder="Work title" type="text"/></div>
+          <div class="form-field"><label>Description</label><textarea id="w-desc" placeholder="Shown below the swiper" rows="3"></textarea></div>
+          <div class="form-field"><label>Link (optional)</label><input id="w-link" placeholder="https://..." type="text"/></div>
+          <div class="form-field">
+            <label>Image</label>
+            <input id="w-image-url" type="text" style="display:none"/>
+            <input id="w-image-file" type="file" accept="image/*" onchange="uploadThumb(this,'w-image-url','w-image-preview','works')" style="font-size:0.7rem;color:var(--muted);margin-top:4px;"/>
+          </div>
+          <div class="form-field"><label>Image Preview</label><div class="thumb-preview" id="w-image-preview">Upload image to preview</div></div>
+          <div class="form-actions">
+            <button class="btn-cancel" onclick="cancelEditWork()">Cancel</button>
+            <button class="btn-draft" onclick="saveWork(true)">Save Draft</button>
+            <button class="btn-save" onclick="saveWork(false)">Publish</button>
+          </div>
+        </div>
+        <button class="btn-add" id="btn-work" onclick="newWork()">+ Add Work</button>
+        </div></div>
+      </div>
+      <div class="card collapsed" id="card-samples">
+        <div class="card-header" onclick="toggleCard('card-samples')">
+          <div class="card-title">Captioning Samples</div>
+          <svg class="card-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="card-body"><div class="card-body-inner">
+        <div class="entry-list" id="samples-list"><div class="loading-state">Loading...</div></div>
+        <div class="add-form" id="sample-form">
+          <div class="form-title" id="sample-form-title">Add Sample</div>
+          <div class="form-field"><label>Type / Label</label><input id="s-type" placeholder="e.g. Travel Vlog — Shorts" type="text"/></div>
+          <div class="form-field"><label>Title</label><input id="s-title" placeholder="Video title" type="text"/></div>
+          <div class="form-field"><label>Episode / Descriptor</label><input id="s-episode" placeholder="Optional" type="text"/></div>
+          <div class="form-field"><label>YouTube / Drive Link</label><input id="s-link" oninput="previewThumb('s-link','s-thumb')" placeholder="https://..." type="text"/></div>
+          <div class="form-field">
+            <label>Thumbnail</label>
+            <input id="s-thumb-url" type="text" style="display:none"/>
+            <input id="s-thumb-file" type="file" accept="image/*" onchange="uploadThumb(this,'s-thumb-url','s-thumb','thumbnails')" style="font-size:0.7rem;color:var(--muted);margin-top:4px;"/>
+          </div>
+          <div class="form-field"><label>Thumbnail Preview</label><div class="thumb-preview" id="s-thumb">Paste link to preview</div></div>
+          <div class="form-actions">
+            <button class="btn-cancel" onclick="cancelEditSample()">Cancel</button>
+            <button class="btn-draft" onclick="saveSample(true)">Save Draft</button>
+            <button class="btn-save" onclick="saveSample(false)">Publish</button>
+          </div>
+        </div>
+        <button class="btn-add" id="btn-sample" onclick="newSample()">+ Add Sample</button>
+        </div></div>
+      </div>
+      <div class="card collapsed" id="card-artists">
+        <div class="card-header" onclick="toggleCard('card-artists')">
+          <div class="card-title">Artist Features</div>
+          <svg class="card-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="card-body"><div class="card-body-inner">
+        <div class="entry-list" id="artist-list"><div class="loading-state">Loading...</div></div>
+        <div class="add-form" id="artist-form">
+          <div class="form-title" id="artist-form-title">Add Feature</div>
+          <div class="form-field"><label>Type / Label</label><input id="a-type" placeholder="e.g. Lyric Edit — Indie" type="text"/></div>
+          <div class="form-field"><label>Artist Name</label><input id="a-title" placeholder="Artist name" type="text"/></div>
+          <div class="form-field"><label>Song · Year</label><input id="a-episode" placeholder="Song · 2024" type="text"/></div>
+          <div class="form-field"><label>YouTube / Drive Link</label><input id="a-link" oninput="previewThumb('a-link','a-thumb')" placeholder="https://..." type="text"/></div>
+          <div class="form-field">
+            <label>Thumbnail</label>
+            <input id="a-thumb-url" type="text" style="display:none"/>
+            <input id="a-thumb-file" type="file" accept="image/*" onchange="uploadThumb(this,'a-thumb-url','a-thumb','thumbnails')" style="font-size:0.7rem;color:var(--muted);margin-top:4px;"/>
+          </div>
+          <div class="form-field"><label>Thumbnail Preview</label><div class="thumb-preview" id="a-thumb">Paste link to preview</div></div>
+          <div class="form-actions">
+            <button class="btn-cancel" onclick="cancelEditArtist()">Cancel</button>
+            <button class="btn-draft" onclick="saveArtist(true)">Save Draft</button>
+            <button class="btn-save" onclick="saveArtist(false)">Publish</button>
+          </div>
+        </div>
+        <button class="btn-add" id="btn-artist" onclick="newArtist()">+ Add Feature</button>
+        </div></div>
+      </div>
+    <div class="card collapsed" id="card-thumbs">
+        <div class="card-header" onclick="toggleCard('card-thumbs')">
+          <div class="card-title">Thumbnails</div>
+          <svg class="card-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="card-body"><div class="card-body-inner">
+        <div class="entry-list" id="thumb-list"><div class="loading-state">Loading...</div></div>
+        <div class="add-form" id="thumb-form">
+          <div class="form-title" id="thumb-form-title">Add Thumbnail</div>
+          <div class="form-field"><label>Title</label><input id="th-title" placeholder="Video title" type="text"/></div>
+          <div class="form-field"><label>Link (optional)</label><input id="th-link" placeholder="https://..." type="text"/></div>
+          <div class="form-field">
+            <label>Thumbnail</label>
+            <input id="th-thumb-url" type="text" style="display:none"/>
+            <input id="th-thumb-file" type="file" accept="image/*" onchange="uploadThumb(this,'th-thumb-url','th-thumb','thumbnails')" style="font-size:0.7rem;color:var(--muted);margin-top:4px;"/>
+          </div>
+          <div class="form-field"><label>Thumbnail Preview</label><div class="thumb-preview" id="th-thumb">Upload image to preview</div></div>
+          <div class="form-actions">
+            <button class="btn-cancel" onclick="cancelEditThumb()">Cancel</button>
+            <button class="btn-draft" onclick="saveThumb(true)">Save Draft</button>
+            <button class="btn-save" onclick="saveThumb(false)">Publish</button>
+          </div>
+        </div>
+        <button class="btn-add" id="btn-thumb" onclick="newThumb()">+ Add Thumbnail</button>
+        </div></div>
+      </div>
+      <div class="card collapsed" id="card-graphic">
+        <div class="card-header" onclick="toggleCard('card-graphic')">
+          <div class="card-title">Graphic Designs</div>
+          <svg class="card-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="card-body"><div class="card-body-inner">
+        <div class="entry-list" id="graphic-list"><div class="loading-state">Loading...</div></div>
+        <div class="add-form" id="graphic-form">
+          <div class="form-title" id="graphic-form-title">Add Graphic Design</div>
+          <div class="form-field"><label>Title</label><input id="gd-title" placeholder="e.g. Rivers Day Campaign" type="text"/></div>
+          <div class="form-field">
+            <label>Image</label>
+            <input id="gd-thumb-url" type="text" style="display:none"/>
+            <input id="gd-thumb-file" type="file" accept="image/*" onchange="uploadThumb(this,'gd-thumb-url','gd-thumb','graphic-designs')" style="font-size:0.7rem;color:var(--muted);margin-top:4px;"/>
+          </div>
+          <div class="form-field"><label>Preview</label><div class="thumb-preview" id="gd-thumb">Upload image to preview</div></div>
+          <div class="form-actions">
+            <button class="btn-cancel" onclick="cancelEditGraphic()">Cancel</button>
+            <button class="btn-draft" onclick="saveGraphic(true)">Save Draft</button>
+            <button class="btn-save" onclick="saveGraphic(false)">Publish</button>
+          </div>
+        </div>
+        <button class="btn-add" id="btn-graphic" onclick="newGraphic()">+ Add Graphic Design</button>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Rates -->
+    <div class="tab-panel" id="tab-rates">
+      <div class="section-label">Content / Rates</div>
+      <div class="card">
+        <div class="card-title">Service Pricing</div>
+        <div class="card-desc">Edit prices — changes go live immediately</div>
+        <div id="rates-container"><div class="loading-state">Loading...</div></div>
+        <button class="btn-save" onclick="saveRates()" style="margin-top:12px;width:100%;">Save Changes</button>
+      </div>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="tab-panel" id="tab-testimonials">
+      <div class="section-label">Content / Testimonials</div>
+      <div class="reminder-banner" id="testi-visible-reminder">
+        <span id="testi-visible-text">Section is hidden on portfolio</span>
+        <span class="reminder-btn" onclick="selectSub('toggles','settings-pill',{stopPropagation:()=>{}})">Go to Toggles →</span>
+      </div>
+      <div id="testimonials-list"><div class="loading-state">Loading...</div></div>
+      <div class="add-form" id="testi-form">
+        <div class="form-title" id="testi-form-title">Add Testimonial</div>
+        <div class="form-field"><label>Quote</label><textarea id="t-quote" placeholder="What they said..." rows="3"></textarea></div>
+        <div class="form-field"><label>Name / Handle</label><div class="handle-input-wrap"><span>@</span><input id="t-name" placeholder="creator_name" type="text"/></div></div>
+        <div class="form-field"><label>Context</label><input id="t-ctx" placeholder="YouTube — Travel Vlog" type="text"/></div>
+        <div class="form-actions">
+          <button class="btn-cancel" onclick="cancelEditTestimonial()">Cancel</button>
+          <button class="btn-draft" onclick="saveTestimonial(true)">Draft</button>
+          <button class="btn-save" onclick="saveTestimonial(false)">Publish</button>
+        </div>
+      </div>
+      <button class="btn-add" id="btn-testi" onclick="newTestimonial()">+ Add Testimonial</button>
+    </div>
+
+    <!-- Library Cards -->
+    <div class="tab-panel" id="tab-librarycards">
+      <div class="section-label">Content / Library Cards</div>
+      <div class="entry-list" id="librarycards-list"><div class="loading-state">Loading...</div></div>
+      <div class="add-form" id="librarycard-form">
+        <div class="form-title" id="librarycard-form-title">Add Library Card</div>
+        <div class="form-field"><label>Label</label><input id="lc-label" placeholder="e.g. Features" type="text"/></div>
+        <div class="form-field"><label>Title</label><input id="lc-title" placeholder="Card title" type="text"/></div>
+        <div class="form-field"><label>Description</label><textarea id="lc-desc" rows="3" placeholder="Short description"></textarea></div>
+        <div class="form-field"><label>Link (page or URL)</label><input id="lc-link" placeholder="captioning-artists.html or https://..." type="text"/></div>
+        <div class="form-actions">
+          <button class="btn-cancel" onclick="cancelEditLibraryCard()">Cancel</button>
+          <button class="btn-draft" onclick="saveLibraryCard(true)">Save Draft</button>
+          <button class="btn-save" onclick="saveLibraryCard(false)">Publish</button>
+        </div>
+      </div>
+      <button class="btn-add" id="btn-librarycard" onclick="newLibraryCard()">+ Add Card</button>
+    </div>
+
+    <!-- Services -->
+    <div class="tab-panel" id="tab-services">
+      <div class="section-label">Content / Services</div>
+      <div class="entry-list" id="services-list"><div class="loading-state">Loading...</div></div>
+      <div class="add-form" id="service-form">
+        <div class="form-title" id="service-form-title">Add Service</div>
+        <div class="form-field"><label>Name</label><input id="sv-name" placeholder="e.g. Content Repurposing" type="text"/></div>
+        <div class="form-field"><label>Detail</label><textarea id="sv-detail" rows="2" placeholder="Short description"></textarea></div>
+        <div class="form-actions">
+          <button class="btn-cancel" onclick="cancelEditService()">Cancel</button>
+          <button class="btn-draft" onclick="saveService(true)">Save Draft</button>
+          <button class="btn-save" onclick="saveService(false)">Publish</button>
+        </div>
+      </div>
+      <button class="btn-add" id="btn-service" onclick="newService()">+ Add Service</button>
+    </div>
+
+    <!-- Tools -->
+    <div class="tab-panel" id="tab-tools">
+      <div class="section-label">Content / Tools</div>
+      <div class="entry-list" id="tools-list"><div class="loading-state">Loading...</div></div>
+      <div class="add-form" id="tool-form">
+        <div class="form-title" id="tool-form-title">Add Tool</div>
+        <div class="form-field"><label>Name</label><input id="tl-name" placeholder="e.g. After Effects" type="text"/></div>
+        <div class="form-field"><label>Icon URL</label><input id="tl-icon-url" type="text" placeholder="https://... or /images/..." oninput="previewToolIcon()"/></div>
+        <div class="form-field"><label>Icon Preview</label><div class="thumb-preview" id="tl-icon-preview" style="display:flex;align-items:center;justify-content:center;">Paste URL to preview</div></div>
+        <div class="form-actions">
+          <button class="btn-cancel" onclick="cancelEditTool()">Cancel</button>
+          <button class="btn-draft" onclick="saveTool(true)">Save Draft</button>
+          <button class="btn-save" onclick="saveTool(false)">Publish</button>
+        </div>
+      </div>
+      <button class="btn-add" id="btn-tool" onclick="newTool()">+ Add Tool</button>
+    </div>
+
+    <!-- Visitor Log -->
+    <div class="tab-panel" id="tab-visitorlog">
+      <div class="section-label">Tracking / Visitor Log</div>
+      <div class="card">
+        <div class="card-title">All Sessions</div>
+        <div class="log-wrap">
+          <table class="log-table">
+            <thead><tr><th>#</th><th>Country</th><th>Date</th><th>Duration</th><th>Pages</th><th>Clicked</th></tr></thead>
+            <tbody id="visitors-tbody"><tr><td class="loading-state" colspan="6">Loading...</td></tr></tbody>
+          </table>
+        </div>
+        <button class="export-btn" onclick="exportVisitors()">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          Export CSV
+        </button>
+      </div>
+    </div>
+
+    <!-- Pitch Tracker -->
+    <div class="tab-panel" id="tab-pitchtracker">
+      <div class="section-label">Tracking / Pitch Tracker</div>
+      <div class="card">
+        <div class="card-title">Generate Ref Link</div>
+        <div class="card-desc">Creates tracked link + logs pitch automatically</div>
+        <div class="add-form open" style="margin-bottom:0;">
+          <div class="form-field">
+            <label>Client Handle</label>
+            <div class="handle-input-wrap"><span>@</span><input id="p-handle" placeholder="channel_name" type="text"/></div>
+          </div>
+          <div class="form-field">
+            <label>Platform</label>
+            <select id="p-platform"><option>Email</option><option>Instagram DM</option><option>Twitter/X</option><option>Other</option></select>
+          </div>
+          <div class="form-actions">
+            <button class="btn-save" onclick="generatePitch()" style="width:100%;">Generate Link + Log Pitch</button>
+          </div>
+        </div>
+        <div class="ref-link-box" id="p-result" style="display:none;margin-top:12px;">
+          <span id="p-link">yoursite.com?r=xxx</span>
+          <span style="color:var(--accent);cursor:pointer;" onclick="copyPitch()">Copy</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Active Pitches</div>
+        <div id="pitches-list"><div class="loading-state">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- Profile -->
+    <div class="tab-panel" id="tab-profile">
+      <div class="section-label">Content / Profile</div>
+
+      <!-- Hero card -->
+      <div class="card collapsed" id="card-profile-hero">
+        <div class="card-header" onclick="toggleCard('card-profile-hero')">
+          <div class="card-title">Hero</div>
+          <svg class="card-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="card-body"><div class="card-body-inner">
+          <div class="form-field"><label>Eyebrow</label><input id="sc-hero_eyebrow" type="text" placeholder="Freelance Portfolio"/></div>
+          <div class="form-field"><label>Name</label><input id="sc-hero_name" type="text" placeholder="Jane Doe"/></div>
+          <div class="form-field"><label>Tagline (italic)</label><input id="sc-hero_tagline" type="text" placeholder="Don't waste your THYME"/></div>
+          <div class="form-field"><label>Bio</label><textarea id="sc-hero_bio" rows="4" placeholder="Turning ideas into videos, one take at a time. Documenting the build — follow for the full story "></textarea></div>
+          <div class="form-field"><label>Availability Text</label><input id="sc-avail_text" type="text" placeholder="Available for projects"/></div>
+          <div class="form-actions" style="justify-content:flex-end;">
+            <button class="btn-save" onclick="saveSiteContentGroup(['hero_eyebrow','hero_name','hero_tagline','hero_bio','avail_text'])">Save</button>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- Links card -->
+      <div class="card collapsed" id="card-profile-links">
+        <div class="card-header" onclick="toggleCard('card-profile-links')">
+          <div class="card-title">Links & Socials</div>
+          <svg class="card-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="card-body"><div class="card-body-inner">
+          <div class="form-field"><label>Email</label><input id="sc-email" type="text" placeholder="your.email@gmail.com"/></div>
+          <div class="form-field"><label>TikTok Handle</label><input id="sc-tiktok_handle" type="text" placeholder="@tiktok"/></div>
+          <div class="form-field"><label>TikTok URL</label><input id="sc-tiktok_url" type="text" placeholder="https://www.tiktok.com/@tiktok"/></div>
+          <div class="form-field"><label>Instagram Handle</label><input id="sc-ig_handle" type="text" placeholder="@instagram"/></div>
+          <div class="form-field"><label>Instagram URL</label><input id="sc-ig_url" type="text" placeholder="https://www.instagram.com/instagram"/></div>
+          <div class="form-field"><label>Resume URL</label><input id="sc-resume_url" type="text" placeholder="yourwebsite.com"/></div>
+          <div class="form-actions" style="justify-content:flex-end;">
+            <button class="btn-save" onclick="saveSiteContentGroup(['email','tiktok_handle','tiktok_url','ig_handle','ig_url','resume_url'])">Save</button>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- Contact card -->
+      <div class="card collapsed" id="card-profile-contact">
+        <div class="card-header" onclick="toggleCard('card-profile-contact')">
+          <div class="card-title">Contact Section</div>
+          <svg class="card-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="card-body"><div class="card-body-inner">
+          <div class="form-field"><label>Heading</label><input id="sc-contact_heading" type="text" placeholder="Let's work together!"/></div>
+          <div class="form-field"><label>Subtext</label><input id="sc-contact_sub" type="text" placeholder="Open for work."/></div>
+          <div class="form-actions" style="justify-content:flex-end;">
+            <button class="btn-save" onclick="saveSiteContentGroup(['contact_heading','contact_sub'])">Save</button>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- Stats card -->
+      <div class="card collapsed" id="card-profile-stats">
+        <div class="card-header" onclick="toggleCard('card-profile-stats')">
+          <div class="card-title">Stats</div>
+          <svg class="card-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="card-body"><div class="card-body-inner">
+          <div class="entry-list" id="stats-list"><div class="loading-state">Loading...</div></div>
+          <div class="add-form" id="stat-form">
+            <div class="form-title" id="stat-form-title">Add Stat</div>
+            <div class="form-field"><label>Count</label><input id="st-count" type="text" placeholder="e.g. 607"/></div>
+            <div class="form-field"><label>Suffix</label><input id="st-suffix" type="text" placeholder="e.g. K+"/></div>
+            <div class="form-field"><label>Label</label><input id="st-label" type="text" placeholder="e.g. Total Likes"/></div>
+            <div class="form-field"><label>Note</label><input id="st-note" type="text" placeholder="e.g. TikTok — organic"/></div>
+            <div class="form-actions" style="justify-content:flex-end;">
+              <button class="btn-cancel" onclick="cancelEditStat()">Cancel</button>
+              <button class="btn-draft" onclick="saveStat(true)">Draft</button>
+              <button class="btn-save" onclick="saveStat(false)">Save</button>
+            </div>
+          </div>
+          <button class="btn-add" id="btn-stat" onclick="newStat()">+ Add Stat</button>
+        </div></div>
+      </div>
+
+    </div>
+
+    <!-- Toggles -->
+    <div class="tab-panel" id="tab-toggles">
+      <div class="section-label">Settings / Toggles</div>
+      <div class="card">
+        <div class="card-title">Availability</div>
+        <div class="toggle-row">
+          <div class="toggle-info"><div class="toggle-name">Available for projects</div><div class="toggle-desc">Green dot on homepage</div></div>
+          <label class="toggle-switch"><input id="tog-avail" onchange="updateToggle('availability', this)" type="checkbox"/><span class="toggle-track"></span></label>
+          <span class="toggle-status" id="status-avail">Off</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Testimonials Section</div>
+        <div class="toggle-row">
+          <div class="toggle-info"><div class="toggle-name">Show testimonials</div><div class="toggle-desc">Display on portfolio homepage</div></div>
+          <label class="toggle-switch"><input id="tog-testi" onchange="updateToggle('testimonials_visible', this)" type="checkbox"/><span class="toggle-track"></span></label>
+          <span class="toggle-status" id="status-testi">Off</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="tab-panel" id="tab-notes">
+      <div class="section-label">Settings / Notes</div>
+      <div class="card">
+        <div class="card-title">Note to Self</div>
+        <div class="card-desc">Private — never shown on portfolio</div>
+        <textarea class="notes-area" id="notes-content" placeholder="Write a note..."></textarea>
+        <button class="btn-save" onclick="saveNotes()">Save Note</button>
+      </div>
+      <div id="notes-list"></div>
+    </div>
+
+    <!-- Activity Log -->
+    <div class="tab-panel" id="tab-activitylog">
+      <div class="section-label" style="display:flex;justify-content:space-between;align-items:center;">
+        <span>Settings / Activity Log</span>
+        <button class="entry-btn-sm danger" onclick="clearActivity()" style="margin-bottom:10px;">Clear All</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Your Actions</div>
+        <div id="full-activity-list"><div class="loading-state">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- Trash -->
+    <div class="tab-panel" id="tab-trash">
+      <div class="section-label" style="display:flex;justify-content:space-between;align-items:center;">
+        <span>Trash</span>
+        <button class="entry-btn-sm danger" onclick="deleteAllTrash()" style="margin-bottom:10px;">Empty All</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Works</div>
+        <div id="works-trash" class="entry-list"><div class="empty-trash">No deleted items</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Captioning Samples</div>
+        <div id="samples-trash" class="entry-list"><div class="empty-trash">No deleted items</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Artist Features</div>
+        <div id="artist-trash" class="entry-list"><div class="empty-trash">No deleted items</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Testimonials</div>
+        <div id="testimonials-trash" class="entry-list"><div class="empty-trash">No deleted items</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Thumbnails</div>
+        <div id="thumbnails-trash" class="entry-list"><div class="empty-trash">No deleted items</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Graphic Designs</div>
+        <div id="graphic-trash" class="entry-list"><div class="empty-trash">No deleted items</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Stats</div>
+        <div id="stats-trash" class="entry-list"><div class="empty-trash">No deleted items</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Library Cards</div>
+        <div id="librarycards-trash" class="entry-list"><div class="empty-trash">No deleted items</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Services</div>
+        <div id="services-trash" class="entry-list"><div class="empty-trash">No deleted items</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Tools</div>
+        <div id="tools-trash" class="entry-list"><div class="empty-trash">No deleted items</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="adobo.js"></script>
+</body>
+</html>

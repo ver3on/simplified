@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/tracker.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="sb-url" content="https://ogjuxwuapngwrinxbbib.supabase.co">
+  <meta name="sb-anon" content="sb_publishable_DhDTAo24i0PBbDo7KQuwKQ_tb-xEJ-o">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rates & Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/assets/theme.css">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/rates-style.css">
+</head>
+
+<body>
+  <div style="position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;gap:8px;align-items:center;">
+    <nav class="back-bar" style="position:static;transform:none;">
+      <a href="index.html" class="back-pill">← Back to Portfolio</a>
+      <div class="back-divider"></div>
+      <a href="captioning-artists.html" class="back-pill">Captioning</a>
+      <div class="back-divider"></div>
+      <a href="thumbnails.html" class="back-pill">Designs</a>
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="container">
+      <p class="page-hero-eyebrow page-hero-anim d1">Rates — Services</p>
+      <h1 class="page-hero-anim d2">What I offer & <em>what I charge.</em></h1>
+    </div>
+  </section>
+
+  <section class="rates-section">
+    <div class="container">
+      <div class="rates-col">
+        <div id="services-list"></div>
+
+        <div class="block-gap reveal" style="margin-bottom:10px;">
+          <div class="section-label reveal">Add-ons & Info</div>
+          <div class="addon-grid" id="addons-grid"></div>
+        </div>
+
+        <div class="block-gap reveal" style="margin-bottom:0;">
+          <div class="section-label reveal">Good to Know</div>
+          <ul class="note-list" id="notes-list"></ul>
+        </div>
+
+        <div class="tools-section reveal" style="margin-bottom:24px;margin-top:16px;">
+  <div class="section-label" style="border:none;">Tools & Software</div>
+  <div class="tools-row" style="justify-content:center;">
+    <div class="tool-item">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Adobe_After_Effects_CC_icon.svg" alt="After Effects">
+    </div>
+    <div class="tool-item">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Adobe_Premiere_Pro_CC_icon.svg" alt="Premiere Pro">
+    </div>
+    <div class="tool-item">
+      <img src="/images/canva.png" alt="Canva">
+    </div>
+    <div class="tool-item">
+      <img src="/images/capcut.png" alt="CapCut">
+    </div>
+  </div>
+</div>
+
+        <a href="mailto:myemail@gmail.com" class="contact-card reveal" id="contact-card">
+          <div class="contact-top">
+            <div class="contact-label">Email Me!</div>
+            <div class="contact-status">open for work</div>
+          </div>
+          <div class="contact-services">captions · shorts · graphic designs</div>
+          <div class="contact-btn">Get in Touch →</div>
+        </a>
+
+        <div class="tc-trigger-wrap">
+          read the full <span class="tc-trigger" onclick="document.getElementById('tcFullTerms').classList.toggle('open')">terms &amp; conditions</span>
+        </div>
+
+        <div class="tc-full" id="tcFullTerms"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer"><div class="container"></div></footer>
+
+<script src="/assets/anim.js" defer></script>
+<script src="/assets/rates-anim.js" defer></script>
+<script src="/assets/rates-calls.js" defer></script>
+<script src="/assets/rates-main.js" defer></script>
+
+</body>
+</html>

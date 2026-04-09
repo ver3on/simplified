@@ -1,0 +1,11 @@
+:root {
+  --bg: #0e0e0e;
+  --surface: #161616;
+  --surface2: #1c1c1c;
+  --border: #3a3a3a;
+  --accent: #fefb41;
+  --text: #e8e4dc;
+  --muted: #7a7570;
+  --serif: 'DM Serif Display', serif;
+  --sans: 'DM Sans', sans-serif;
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="/tracker.js" defer></script>
+<meta charset="UTF-8">
+<meta name="sb-url" content="https://ogjuxwuapngwrinxbbib.supabase.co">
+<meta name="sb-anon" content="sb_publishable_DhDTAo24i0PBbDo7KQuwKQ_tb-xEJ-o">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thumbnail Design — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/assets/theme.css">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/thumb-style.css">
+</head>
+
+<body>
+
+  <!-- BACK NAV -->
+  <div style="position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;gap:5px;align-items:center;">
+    <nav class="back-bar" style="position:static;transform:none;">
+      <a href="index.html" class="back-pill">← Back</a>
+      <a href="#thumbnails" class="back-pill" onclick="smoothScroll('thumbnails')">Thumbnails</a>
+      <a href="#graphic" class="back-pill" onclick="smoothScroll('graphic')">Graphics</a>
+      <a href="captioning-artists.html" class="back-pill">Captioning →</a>
+    </nav>
+    <nav class="back-bar" style="position:static;transform:none;">
+      <a href="rates.html" class="back-pill">Rates</a>
+    </nav>
+  </div>
+
+  <!-- ══ THUMBNAILS SECTION ══ -->
+  <section id="thumbnails" class="page-hero">
+    <div class="container">
+      <p class="page-hero-eyebrow thumb-hero-anim d1">Thumbnail Design</p>
+      <h1 class="thumb-hero-anim d2">Thumbnails that <em>stop the scroll.</em></h1>
+    </div>
+  </section>
+
+  <section class="library-section">
+    <div class="container">
+      <div class="section-label reveal">Showcase</div>
+      <div class="library-grid-thumbs" id="thumbs-grid"></div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ══ GRAPHIC DESIGNS SECTION ══ -->
+  <section id="graphic" class="page-hero">
+    <div class="container">
+      <p class="page-hero-eyebrow graphic-hero-anim d1">Graphic Design</p>
+      <h1 class="graphic-hero-anim d2">Designs made to <em>speak.</em></h1>
+    </div>
+  </section>
+
+  <section class="library-section">
+    <div class="container">
+      <div class="section-label reveal">Showcase</div>
+      <div class="library-grid-graphic" id="graphic-grid"></div>
+    </div>
+  </section>
+
+  <footer class="footer"><div class="container"></div></footer>
+
+<script src="/assets/anim.js" defer></script>
+<script src="/assets/thumb-anim-dup.js" defer></script>
+<script src="/assets/thumb-calls.js" defer></script>
+<script src="/assets/thumb-main.js" defer></script>
+</body>
+
+</html>

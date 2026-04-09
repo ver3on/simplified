@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="/tracker.js" defer></script>
+<meta charset="UTF-8">
+<meta name="sb-url" content="https://ogjuxwuapngwrinxbbib.supabase.co">
+<meta name="sb-anon" content="sb_publishable_DhDTAo24i0PBbDo7KQuwKQ_tb-xEJ-o">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/assets/theme.css">
+<link rel="stylesheet" href="/assets/style.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css">
+</head>
+<body>
+
+  <nav id="pill-nav">
+    <div class="pill-item" data-target="hero">Profile</div>
+    <div class="pill-item" data-target="stats">Stats</div>
+    <div class="pill-item" data-target="work">Works</div>
+    <div class="pill-item" data-target="captioning">Library</div>
+    <div class="pill-item" data-target="services">Services</div>
+    <div class="pill-item" id="pill-testimonies" data-target="testimonials" style="display:none;padding:5px 10px;line-height:0;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14a2 2 0 0 0 2-2V8h-2"/><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M8 14a2 2 0 0 0 2-2V8H8"/></svg></div>
+    <div class="pill-item" id="pill-contact" data-target="contact">Contact</div>
+  </nav>
+
+  <section class="hero" id="hero">
+    <div class="container">
+      <p class="hero-eyebrow hero-anim d1" id="hero-eyebrow"></p>
+      <h1 class="hero-anim d2"><span id="hero-name"></span><br><em id="hero-tagline"></em></h1>
+      <p class="hero-bio hero-anim d3" id="hero-bio"></p>
+
+      <div class="hero-links hero-anim d5">
+        <a id="hero-tiktok-link" style="color:var(--muted);display:none;"></a>
+        <span id="hero-tiktok-sep" style="display:none">·</span>
+        <a id="hero-ig-link" style="color:var(--muted);display:none;"></a>
+        <span id="hero-ig-sep" style="display:none">·</span>
+        <a id="hero-email-link"></a>
+        <span id="hero-resume-sep" style="display:none">·</span>
+        <a id="hero-resume-link" style="color:var(--muted);display:none;">Resume <span style="display:inline-block;transform:rotate(45deg);color:inherit;">↑</span></a>
+
+        <div class="availability-status available hero-anim d4" id="availability-status">
+          <span class="avail-dot"></span>
+          <span id="avail-text"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-section" id="stats">
+    <div class="container">
+      <div class="section-label reveal">By the Numbers</div>
+      <div class="stats-grid" id="stats-grid"></div>
+    </div>
+  </section>
+
+  <section class="work-section" id="work">
+    <div class="container">
+      <div class="section-label reveal">Work Samples</div>
+      <div class="swiper work-swiper reveal">
+        <div class="swiper-wrapper"></div>
+        <div class="swiper-pagination" id="work-pagination"></div>
+      </div>
+      <div class="work-descriptor" id="work-descriptor"></div>
+    </div>
+  </section>
+
+  <section class="captioning-section" id="captioning">
+    <div class="container">
+      <div class="section-label reveal">Library Features</div>
+      <div class="features-grid" id="library-cards-grid"></div>
+    </div>
+  </section>
+
+  <section class="services-section" id="services">
+    <div class="container">
+      <div class="section-label reveal">What I Offer</div>
+      <div class="tools-row reveal" id="tools-row"></div>
+      <div class="services-list" id="services-list"></div>
+    </div>
+  </section>
+
+  <div class="rates-line">
+    <div class="container">
+      <p class="reveal"><a href="rates.html" class="rates-link">Rates →</a></p>
+    </div>
+  </div>
+
+  <section class="testimonials-section" id="testimonials" style="display:none">
+    <div class="container">
+      <div class="section-label">Testimonials</div>
+      <div class="swiper testi-swiper">
+        <div class="swiper-wrapper" id="testimonials-grid"></div>
+        <div class="swiper-pagination" id="testi-pagination"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section" id="contact">
+    <div class="container">
+      <div class="section-label reveal">Get in Touch</div>
+      <div class="contact-inner">
+        <div class="contact-left c-left">
+          <h2 id="contact-heading"></h2>
+          <p id="contact-sub"></p>
+        </div>
+        <div class="contact-right c-right">
+          <a id="contact-email-link"></a>
+          <a id="contact-tiktok-link" style="display:none;"></a>
+          <a id="contact-ig-link" style="display:none;"></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer"><div class="container"></div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+<script src="/assets/anim.js" defer></script>
+<script src="/assets/calls.js" defer></script>
+<script src="/assets/main.js" defer></script>
+</body>
+</html>
